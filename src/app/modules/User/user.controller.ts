@@ -3,13 +3,20 @@ import catchAsync from "../Utils/catchAsync";
 import sendResponse from "../Utils/sendResponse";
 import { UserServices } from "./user.service";
 
-const createUser = catchAsync(async(req, res)=>{
-    const result = await UserServices.createUserIntoDB(req.body)
-    
+const createAdmin = catchAsync(async (req, res) => {
+  const { password, admin: adminData } = req.body;
+
+  const result = await UserServices.createAdminIntoDB(password, adminData);
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic semester is created succesfully',
+    message: 'Admin is created succesfully',
     data: result,
   });
-})
+});
+
+
+export const UserControllers = {
+  createAdmin
+}
