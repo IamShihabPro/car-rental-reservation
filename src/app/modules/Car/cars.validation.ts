@@ -7,10 +7,8 @@ const createCarsValidation = z.object({
     description: z.string(),
     color: z.string(),
     isElectric: z.boolean(),
-    status: z.enum(['available', 'unavailable', 'maintenance']),
     features: z.array(z.string()),
     pricePerHour: z.number().positive(),
-    isDeleted: z.boolean()
   })
 });
 
