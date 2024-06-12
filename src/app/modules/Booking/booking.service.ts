@@ -9,13 +9,8 @@ const createBookingIntoDB = async(payload: TBooking)=>{
 
 
 const getAllBookingsFromDB = async(query: Record<string, unknown>) =>{
-    const BookingSearchableFields = ['name']
-    const bookingQuery = new QueryBuilder(Booking.find().populate('user').populate('car'), query)
-    .search(BookingSearchableFields)
-    .filter()
-    .sort()
-    .paginate()
-    .fields();
+    const BookingSearchableFields = ['carId', 'date', 'isBooked']
+    const bookingQuery = new QueryBuilder(Booking.find().populate('userId').populate('carId'), query).search(BookingSearchableFields).filter().sort().paginate().fields();
 
     const result = await bookingQuery.modelQuery
     return result
