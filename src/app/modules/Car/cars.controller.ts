@@ -30,7 +30,19 @@ const getSingleCar = catchAsync(async(req, res)=>{
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Cars are retrive succesfully',
+        message: 'Cars is retrive succesfully',
+        data: result,
+      });
+})
+
+
+const updateCar = catchAsync(async(req, res)=>{
+    const {id} = req.params
+    const result = await CarsServices.updateCarIntoDB(id, req.body)
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Cars is updated succesfully',
         data: result,
       });
 })
@@ -39,5 +51,6 @@ const getSingleCar = catchAsync(async(req, res)=>{
 export const CarsController = {
     createCars,
     getAllCars,
-    getSingleCar
+    getSingleCar,
+    updateCar
 }

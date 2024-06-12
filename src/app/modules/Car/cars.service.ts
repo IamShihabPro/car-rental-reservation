@@ -28,8 +28,14 @@ const getSingleCar = async(id: string) =>{
     return result
 }
 
+const updateCarIntoDB = async(id: string, payload: Partial<TCar>)=>{
+  const result = await Car.findByIdAndUpdate(id, payload, {new: true})
+  return result
+}
+
 export const CarsServices = {
     createCarsIntoDB,
     getAllCarsFromDB,
-    getSingleCar
+    getSingleCar,
+    updateCarIntoDB
 }
