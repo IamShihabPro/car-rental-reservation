@@ -1,11 +1,9 @@
-export type UserRole = 'user' | 'admin';
-
 export type TUser = {
-  // name: string;
-  // email: string;
-  role: UserRole;
+  name: string;
+  email: string;
+  role: 'user' | 'admin';
   password: string;
-  // phone: string;
-  // address: string;
+  phone: string;
+  address: string;
   isDeleted: boolean;
 }

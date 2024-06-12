@@ -3,20 +3,18 @@ import catchAsync from "../Utils/catchAsync";
 import sendResponse from "../Utils/sendResponse";
 import { UserServices } from "./user.service";
 
-const createAdmin = catchAsync(async (req, res) => {
-  const { password, admin: adminData } = req.body;
-
-  const result = await UserServices.createAdminIntoDB(password, adminData);
+const createUser = catchAsync(async (req, res) => {
+  const result = await UserServices.createUserIntoDB(req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Admin is created succesfully',
+    message: 'User is created succesfully',
     data: result,
   });
 });
 
 
 export const UserControllers = {
-  createAdmin
+  createUser
 }
