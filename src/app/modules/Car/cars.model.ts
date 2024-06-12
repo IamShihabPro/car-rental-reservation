@@ -1,5 +1,5 @@
 // car.model.ts
-import { Schema, model } from 'mongoose';
+import { Query, Schema, model } from 'mongoose';
 import { TCar } from './cars.interface';
 
 const carSchema = new Schema<TCar>({
@@ -16,6 +16,17 @@ const carSchema = new Schema<TCar>({
     timestamps: true,
 },
 );
+
+// Middleware to exclude deleted cars
+carSchema.pre<Query<TCar, TCar>>('find', function(next) {
+    this.where({ isDeleted: { $ne: true } });
+    next();
+});
+
+carSchema.pre<Query<TCar, TCar>>('findOne', function(next) {
+    this.where({ isDeleted: { $ne: true } });
+    next();
+})
 
 const Car = model<TCar>('Car', carSchema);
 

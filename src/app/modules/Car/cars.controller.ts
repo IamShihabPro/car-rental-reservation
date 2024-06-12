@@ -47,10 +47,22 @@ const updateCar = catchAsync(async(req, res)=>{
       });
 })
 
+const deleteCar = catchAsync(async(req, res)=>{
+    const {id} = req.params
+    const result = await CarsServices.deleteCarIntoDB(id)
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Cars is deleted succesfully',
+        data: result,
+      });
+})
+
 
 export const CarsController = {
     createCars,
     getAllCars,
     getSingleCar,
-    updateCar
+    updateCar,
+    deleteCar
 }

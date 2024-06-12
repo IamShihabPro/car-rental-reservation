@@ -10,6 +10,8 @@ router.get('/', CarsController.getAllCars)
 
 router.get('/:id', CarsController.getSingleCar)
 
+router.delete('/:id', CarsController.deleteCar)
+
 router.put('/:id', validateRequest(CarsValidations.updateCarsValidation), CarsController.updateCar)
 
 export const CarsRoutes = router
