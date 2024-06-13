@@ -4,8 +4,8 @@ import { UserValidation } from './user.validation';
 import { UserControllers } from './user.controller';
 const router = express.Router();
 
-router.post('/create-user',
-  validateRequest(UserValidation.createUserValidation),  UserControllers.createUser
+router.post('/signup',
+  validateRequest(UserValidation.createUserValidation),  UserControllers.signUpUser
 );
 
 

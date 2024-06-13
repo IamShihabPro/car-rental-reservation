@@ -3,18 +3,18 @@ import catchAsync from "../Utils/catchAsync";
 import sendResponse from "../Utils/sendResponse";
 import { UserServices } from "./user.service";
 
-const createUser = catchAsync(async (req, res) => {
-  const result = await UserServices.createUserIntoDB(req.body);
+const signUpUser = catchAsync(async (req, res) => {
+  const result = await UserServices.signUpUserIntoDB(req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User is created succesfully',
+    message: 'User sign up succesfully',
     data: result,
   });
 });
 
 
 export const UserControllers = {
-  createUser
+  signUpUser
 }
