@@ -5,7 +5,6 @@ export type TBooking = {
   userId: Types.ObjectId; 
   carId: Types.ObjectId; 
   startTime: string; 
-  endTime: string; 
+  endTime: string | null;
   totalCost: number; 
-  isBooked: 'unconfirmed' | 'confirmed';
 }
