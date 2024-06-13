@@ -7,5 +7,6 @@ const router = express.Router()
 
 router.post('/create-bookings', validateRequest(bookingValidations.createBookingValidation), BookingControllers.createBooking)
 router.get('/', BookingControllers.getAllBookings)
+router.get('/:mybookings', BookingControllers.getSingleBookings)
 
 export const BookingRoutes = router

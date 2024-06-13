@@ -27,7 +27,13 @@ const getAllBookingsFromDB = async(query: Record<string, unknown>) =>{
     return result
 }
 
+const getASingleBookingsFromDB =  async(id: string) =>{
+    const result = await Booking.findById(id)
+    return result
+}
+
 export const BookingServices = {
     createBookingIntoDB,
-    getAllBookingsFromDB
+    getAllBookingsFromDB,
+    getASingleBookingsFromDB
 }
