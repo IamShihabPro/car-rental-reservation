@@ -17,11 +17,9 @@ const signInUser = async (payload: TSignin) => {
         throw new AppError(httpStatus.UNAUTHORIZED, "Incorrect password");
     }
 
-    return {
-        success: true,
-        statusCode: httpStatus.OK,
-       
-    };
+    const userWithoutPassword = await User.findById(isUserExists._id).select('-password');
+
+    return userWithoutPassword;
 }
 
 export const AuthServices = {
