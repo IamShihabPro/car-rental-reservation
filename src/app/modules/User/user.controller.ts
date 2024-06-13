@@ -14,7 +14,30 @@ const signUpUser = catchAsync(async (req, res) => {
   });
 });
 
+const getAllUsers = catchAsync(async(req, res)=>{
+  const result = await UserServices.getAllUsersFromDB(req.query)
+  sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Users are retrive succesfully',
+      data: result,
+    });
+})
+
+
+const getSingleUser = catchAsync(async(req, res)=>{
+  const {id} = req.params
+  const result = await UserServices.getSingleUser(id)
+  sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Users is retrive succesfully',
+      data: result,
+    });
+})
 
 export const UserControllers = {
-  signUpUser
+  signUpUser,
+  getAllUsers,
+  getSingleUser,
 }

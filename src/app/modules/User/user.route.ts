@@ -8,5 +8,8 @@ router.post('/signup',
   validateRequest(UserValidation.createUserValidation),  UserControllers.signUpUser
 );
 
+router.get('/', UserControllers.getAllUsers)
+router.get('/:id', UserControllers.getSingleUser)
+
 
 export const UserRoutes = router;
