@@ -1,4 +1,4 @@
-export type TCarStatus = 'available' | 'unavailable' | 'maintenance';
+export type TCarStatus = 'available' | 'unavailable';
 
 export interface TCar {
   name: string;

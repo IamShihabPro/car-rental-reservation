@@ -5,7 +5,7 @@ import { BookingControllers } from './booking.controller'
 
 const router = express.Router()
 
-router.post('/create-bookings', validateRequest(bookingValidations.createBookingValidation), BookingControllers.createBooking)
+router.post('/', validateRequest(bookingValidations.createBookingValidation), BookingControllers.createBooking)
 router.get('/', BookingControllers.getAllBookings)
 router.get('/:mybookings', BookingControllers.getSingleBookings)
 

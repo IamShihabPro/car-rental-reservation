@@ -38,10 +38,11 @@ const deleteCarIntoDB = async(id: string) =>{
   return result
 }
 
+
 export const CarsServices = {
     createCarsIntoDB,
     getAllCarsFromDB,
     getSingleCar,
     updateCarIntoDB,
-    deleteCarIntoDB
+    deleteCarIntoDB,
 }

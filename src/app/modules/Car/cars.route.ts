@@ -4,7 +4,7 @@ import { CarsValidations } from './cars.validation'
 import { CarsController } from './cars.controller'
 
 const router = express.Router()
-router.post('/create-cars', validateRequest(CarsValidations.createCarsValidation), CarsController.createCars)
+router.post('/', validateRequest(CarsValidations.createCarsValidation), CarsController.createCars)
 
 router.get('/', CarsController.getAllCars)
 

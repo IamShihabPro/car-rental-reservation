@@ -18,14 +18,22 @@ const updateCarsValidation = z.object({
     description: z.string().optional(),
     color: z.string().optional(),
     isElectric: z.boolean().optional(),
-    status: z.enum(['available', 'unavailable', 'maintenance']).optional(),
+    status: z.enum(['available', 'unavailable']).optional(),
     features: z.array(z.string()).optional(),
     pricePerHour: z.number().positive().optional(),
     isDeleted: z.boolean().optional()
   })
 });
 
+const returnCarValidation = z.object({
+  body: z.object({
+    bookingId: z.string(),
+    endTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Invalid time format, should be in 24hr format (e.g., '15:00')"),
+  }),
+});
+
 export const CarsValidations = {
     createCarsValidation,
-    updateCarsValidation
+    updateCarsValidation,
+    returnCarValidation
 }

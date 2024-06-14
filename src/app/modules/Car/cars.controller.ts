@@ -64,5 +64,5 @@ export const CarsController = {
     getAllCars,
     getSingleCar,
     updateCar,
-    deleteCar
+    deleteCar,
 }
