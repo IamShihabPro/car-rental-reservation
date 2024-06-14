@@ -8,9 +8,28 @@ import { User } from '../modules/User/user.model';
 import httpStatus from 'http-status';
 
 
+// Function to normalize the token
+const sliptToken = (authHeader: string | undefined): string | null => {
+  if (!authHeader) {
+      return null;
+  }
+  const [bearer, token] = authHeader.split(' ');
+
+  if (bearer === 'Bearer' && token) {
+      return token;
+  }
+
+  return authHeader; // Return token as is if it doesn't start with 'Bearer '
+};
+
+
+
 export const auth = (...requiredRoles: (keyof typeof USER_ROLE)[]) => {
     return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-      const accessToken = req.headers.authorization;
+      // const accessToken = req.headers.authorization;
+
+      const authHeader = req.headers.authorization;
+      const accessToken = sliptToken(authHeader);
   
       if (!accessToken) {
         throw new AppError(401, "You are not authorized to access this route");
