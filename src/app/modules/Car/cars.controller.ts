@@ -59,10 +59,25 @@ const deleteCar = catchAsync(async(req, res)=>{
 })
 
 
+
+
+const returnCar = catchAsync(async(req, res) => {
+    const { bookingId, endTime } = req.body;
+    const result = await CarsServices.returnCarService(bookingId, endTime);
+    res.status(httpStatus.OK).json({
+      success: true,
+      message: 'Car returned successfully',
+      data: result,
+    });
+  });
+
+
+
 export const CarsController = {
     createCars,
     getAllCars,
     getSingleCar,
     updateCar,
     deleteCar,
+    returnCar
 }

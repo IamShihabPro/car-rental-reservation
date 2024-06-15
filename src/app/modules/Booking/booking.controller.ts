@@ -23,19 +23,43 @@ const getAllBookings = catchAsync(async(req, res)=>{
       });
 })
 
-const getSingleBookings = catchAsync(async(req, res)=>{
-    const {mybookings} = req.params
-    const result =  await BookingServices.getASingleBookingsFromDB(mybookings)
-    sendResponse(res, {
-        statusCode: httpStatus.OK,
+// const getSingleBookings = catchAsync(async(req, res)=>{
+//     const {mybookings} = req.params
+//     const result =  await BookingServices.getASingleBookingsFromDB(mybookings)
+//     sendResponse(res, {
+//         statusCode: httpStatus.OK,
+//         success: true,
+//         message: 'Booking are retrived succesfully',
+//         data: result,
+//       });
+// })
+
+
+const getMyBookings = catchAsync(async (req, res) => {
+    const { email } = req.user as { email: string };
+    console.log('User email:', email);
+    const bookings = await BookingServices.getMyBookingsFromDB(email);
+  
+    if (!bookings || bookings.length === 0) {
+      return   sendResponse(res, {
+        statusCode: httpStatus.NOT_FOUND,
         success: true,
-        message: 'Booking are retrived succesfully',
-        data: result,
+        message: 'No Booking Found',
+        data: bookings,
       });
-})
+    }
+  
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Your Bookings are retrieved successfully',
+      data: bookings,
+    });
+  });
 
 export const BookingControllers = {
     createBooking,
     getAllBookings,
-    getSingleBookings
+    // getSingleBookings,
+    getMyBookings
 }
