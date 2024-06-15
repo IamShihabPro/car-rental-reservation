@@ -30,4 +30,6 @@ userSchema.post('save', function(doc, next) {
     next();
 });
 
+userSchema.index({ email: 1 }, { unique: true });
+
 export const User = model<TUser>('User', userSchema)

@@ -2,7 +2,6 @@ import httpStatus from "http-status";
 import catchAsync from "../Utils/catchAsync";
 import sendResponse from "../Utils/sendResponse";
 import { CarsServices } from "./cars.service";
-import mongoose from "mongoose";
 import AppError from "../../errors/AppError";
 
 const createCars = catchAsync(async(req, res)=>{
@@ -63,8 +62,6 @@ const deleteCar = catchAsync(async(req, res)=>{
 
 const returnCar = catchAsync(async (req, res) => {
   const { bookingId, endTime } = req.body;
-
-  console.log(req.body)
 
   const result = await CarsServices.returnCarService(bookingId, endTime);
 

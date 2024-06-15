@@ -37,7 +37,6 @@ const getAllBookingsFromDB = async(query: Record<string, unknown>) =>{
 
 const getMyBookingsFromDB = async (email: string) => {
     try {
-      console.log('Searching for user with email:', email);
   
       const users = await User.find({ email });
       if (!users || users.length === 0) {
@@ -46,10 +45,8 @@ const getMyBookingsFromDB = async (email: string) => {
       }
   
       const user = users[0];
-      console.log('Found user:', user);
   
       const userId = user._id;
-      console.log('User ID:', userId);
   
       const bookings = await Booking.find({ userId })
       .populate('userId')

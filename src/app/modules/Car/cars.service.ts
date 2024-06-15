@@ -1,13 +1,8 @@
-import httpStatus from "http-status";
 import QueryBuilder from "../../builder/QueryBuilder";
-import AppError from "../../errors/AppError";
 import Booking from "../Booking/booking.model";
 import { TCar } from "./cars.interface";
 import Car from "./cars.model";
 import { calculateTotalCost } from "./cars.utils";
-import mongoose from "mongoose";
-import { User } from "../User/user.model";
-
 
 const createCarsIntoDB = async(payload: TCar)=>{
     const result = await Car.create(payload)
@@ -47,15 +42,12 @@ const deleteCarIntoDB = async(id: string) =>{
 
 
 const returnCarService = async (bookingId: string, endTime: string) => {
-  try {
-      // Find the booking by ID and populate the associated user and car
       const booking = await Booking.findById(bookingId).populate('carId').populate('userId');
 
       if (!booking) {
           throw new Error('Booking not found');
       }
 
-      // Update the car status to 'available'
       const car = await Car.findByIdAndUpdate(
           booking.carId,
           { status: 'available' },
@@ -66,10 +58,8 @@ const returnCarService = async (bookingId: string, endTime: string) => {
           throw new Error('Car not found');
       }
 
-      // Calculate total cost based on the difference between startTime and endTime
       const totalCost = calculateTotalCost(booking.startTime, endTime, car.pricePerHour);
 
-      // Update the booking with new endTime and totalCost
       const updatedBooking = await Booking.findByIdAndUpdate(
           bookingId,
           { endTime, totalCost },
@@ -81,12 +71,8 @@ const returnCarService = async (bookingId: string, endTime: string) => {
       }
 
       return updatedBooking;
-  } catch (error) {
-      throw error; // Throw any errors encountered for centralized error handling
-  }
+  
 };
-
-
 
 
 export const CarsServices = {

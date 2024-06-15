@@ -38,12 +38,9 @@ export const auth = (...requiredRoles: (keyof typeof USER_ROLE)[]) => {
         config.jwt_access_secret as string
       );
   
-      const { role, email, iat } = verfiedToken as JwtPayload;
+      const { role, email } = verfiedToken as JwtPayload;
   
       const user = await User.findOne({ email });
-  
-      // console.log(verfiedToken)
-      // console.log(user)
   
       if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, "This is user is not found")
