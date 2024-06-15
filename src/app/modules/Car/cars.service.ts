@@ -4,8 +4,9 @@ import AppError from "../../errors/AppError";
 import Booking from "../Booking/booking.model";
 import { TCar } from "./cars.interface";
 import Car from "./cars.model";
-import { calculationTotalDurationTime } from "./cars.utils";
+import { calculateTotalCost } from "./cars.utils";
 import mongoose from "mongoose";
+import { User } from "../User/user.model";
 
 
 const createCarsIntoDB = async(payload: TCar)=>{
@@ -46,58 +47,46 @@ const deleteCarIntoDB = async(id: string) =>{
 
 
 const returnCarService = async (bookingId: string, endTime: string) => {
-  const session = await mongoose.startSession();
-
   try {
-    session.startTransaction();
+      // Find the booking by ID and populate the associated user and car
+      const booking = await Booking.findById(bookingId).populate('carId').populate('userId');
 
-    // Find the booked record using bookingId
-    const findBook = await Booking.findById(bookingId).session(session);
-    if (!findBook) {
-      throw new AppError(httpStatus.NOT_FOUND, 'Booking not found');
-    }
+      if (!booking) {
+          throw new Error('Booking not found');
+      }
 
-    const { carId, startTime } = findBook;
+      // Update the car status to 'available'
+      const car = await Car.findByIdAndUpdate(
+          booking.carId,
+          { status: 'available' },
+          { new: true }
+      );
 
-    // Update the car's status to 'available'
-    const findCar = await Car.findByIdAndUpdate(
-      carId,
-      { status: 'available' },
-      { new: true, runValidators: true }
-    ).session(session);
+      if (!car) {
+          throw new Error('Car not found');
+      }
 
-    if (!findCar) {
-      throw new AppError(httpStatus.NOT_FOUND, 'Car not found');
-    }
+      // Calculate total cost based on the difference between startTime and endTime
+      const totalCost = calculateTotalCost(booking.startTime, endTime, car.pricePerHour);
 
-    // Calculate total cost based on startTime, endTime, and car's pricePerHour
-    const pricePerHour = findCar.pricePerHour as number;
-    const totalCost = calculationTotalDurationTime(startTime, endTime, pricePerHour);
+      // Update the booking with new endTime and totalCost
+      const updatedBooking = await Booking.findByIdAndUpdate(
+          bookingId,
+          { endTime, totalCost },
+          { new: true, runValidators: true }
+      ).populate('carId').populate('userId');
 
-    // Update the booking record with endTime and totalCost
-    const updatedBooking = await Booking.findByIdAndUpdate(
-      bookingId,
-      { endTime, totalCost },
-      { new: true, runValidators: true }
-    )
-      .populate('user')
-      .populate('carId')
-      .session(session);
+      if (!updatedBooking) {
+          throw new Error('Failed to update booking');
+      }
 
-    if (!updatedBooking) {
-      throw new AppError(httpStatus.NOT_FOUND, 'Booking not found');
-    }
-
-    await session.commitTransaction();
-    session.endSession();
-
-    return updatedBooking;
+      return updatedBooking;
   } catch (error) {
-    await session.abortTransaction();
-    session.endSession();
-    throw error;
+      throw error; // Throw any errors encountered for centralized error handling
   }
 };
+
+
 
 
 export const CarsServices = {

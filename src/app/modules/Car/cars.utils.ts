@@ -1,13 +1,7 @@
-export const calculationTotalDurationTime = (
-    startTime: string,
-    endTime: string,
-    pricePerHour: number
-  ): number => {
-    const [starHour, startMint] = startTime?.split(":").map(Number);
-    const startHourAndMInt = starHour * 60 + startMint;
-    const [endHour, endMint] = endTime?.split(":").map(Number);
-    const endtHourAndMInt = endHour * 60 + endMint;
-    const totalDuration = (endtHourAndMInt - startHourAndMInt) / 60;
-    const newTotalCost = totalDuration * pricePerHour;
-    return newTotalCost;
-  };
+// utils/calculateTotalCost.ts
+export const calculateTotalCost = (startTime: string, endTime: string, pricePerHour: number) => {
+  const start = new Date(`1970-01-01T${startTime}:00Z`);
+  const end = new Date(`1970-01-01T${endTime}:00Z`);
+  const duration = (end.getTime() - start.getTime()) / (1000 * 60 * 60); // duration in hours
+  return duration * pricePerHour;
+};

@@ -2,6 +2,8 @@ import httpStatus from "http-status";
 import catchAsync from "../Utils/catchAsync";
 import sendResponse from "../Utils/sendResponse";
 import { CarsServices } from "./cars.service";
+import mongoose from "mongoose";
+import AppError from "../../errors/AppError";
 
 const createCars = catchAsync(async(req, res)=>{
     const result = await CarsServices.createCarsIntoDB(req.body)
@@ -59,18 +61,24 @@ const deleteCar = catchAsync(async(req, res)=>{
 })
 
 
+const returnCar = catchAsync(async (req, res) => {
+  const { bookingId, endTime } = req.body;
 
+  console.log(req.body)
 
-const returnCar = catchAsync(async(req, res) => {
-    const { bookingId, endTime } = req.body;
-    const result = await CarsServices.returnCarService(bookingId, endTime);
-    res.status(httpStatus.OK).json({
+  const result = await CarsServices.returnCarService(bookingId, endTime);
+
+  if (!result) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Booking update failed');
+  }
+
+  sendResponse(res, {
       success: true,
-      message: 'Car returned successfully',
+      statusCode: httpStatus.OK,
+      message: 'Booking updated successfully',
       data: result,
-    });
   });
-
+});
 
 
 export const CarsController = {
