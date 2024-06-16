@@ -47,7 +47,6 @@ const getAllBookings = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
 // })
 const getMyBookings = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = req.user;
-    console.log('User email:', email);
     const bookings = yield booking_service_1.BookingServices.getMyBookingsFromDB(email);
     if (!bookings || bookings.length === 0) {
         return (0, sendResponse_1.default)(res, {
