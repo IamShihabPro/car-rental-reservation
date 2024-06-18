@@ -9,7 +9,7 @@ const signUpUser = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User sign up succesfully',
+    message: 'User registered successfully',
     data: result,
   });
 });

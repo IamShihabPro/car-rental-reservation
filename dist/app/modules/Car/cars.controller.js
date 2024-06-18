@@ -23,7 +23,7 @@ const createCars = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Car is created succesfully',
+        message: 'Car created succesfully',
         data: result,
     });
 }));
@@ -42,7 +42,7 @@ const getSingleCar = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Cars is retrive succesfully',
+        message: 'A Car retrieved successfully',
         data: result,
     });
 }));

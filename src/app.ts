@@ -15,16 +15,23 @@ app.use(cors({origin: ['http://localhost:5173']}))
 // application routes
 app.use('/api', router)
 
+
+// const test = (req: Request, res: Response) => {
+//   const a = 10
+//   res.send(a)
+// }
+
+// app.get('/', test)
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('Assignment 3')
+})
+
+
+app.use(globalErrorHandler)
+
 // Not found
 app.use(notFound)
 
-const test = (req: Request, res: Response) => {
-  const a = 10
-  res.send(a)
-}
-
-app.get('/', test)
-
-app.use(globalErrorHandler)
 
 export default app

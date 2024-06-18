@@ -10,7 +10,7 @@ const createCars = catchAsync(async(req, res)=>{
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Car is created succesfully',
+        message: 'Car created succesfully',
         data: result,
       });
 })
@@ -31,7 +31,7 @@ const getSingleCar = catchAsync(async(req, res)=>{
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Cars is retrive succesfully',
+        message: 'A Car retrieved successfully',
         data: result,
       });
 })
