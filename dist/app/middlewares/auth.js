@@ -33,11 +33,11 @@ const auth = (...requiredRoles) => {
     return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         // const accessToken = req.headers.authorization;
         const authHeader = req.headers.authorization;
-        const accessToken = sliptToken(authHeader);
-        if (!accessToken) {
+        const token = sliptToken(authHeader);
+        if (!token) {
             throw new AppError_1.default(401, "You are not authorized to access this route");
         }
-        const verfiedToken = jsonwebtoken_1.default.verify(accessToken, config_1.default.jwt_access_secret);
+        const verfiedToken = jsonwebtoken_1.default.verify(token, config_1.default.jwt_access_secret);
         const { role, email } = verfiedToken;
         const user = yield user_model_1.User.findOne({ email });
         if (!user) {

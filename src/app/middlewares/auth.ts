@@ -27,14 +27,14 @@ export const auth = (...requiredRoles: (keyof typeof USER_ROLE)[]) => {
       // const accessToken = req.headers.authorization;
 
       const authHeader = req.headers.authorization;
-      const accessToken = sliptToken(authHeader);
+      const token = sliptToken(authHeader);
   
-      if (!accessToken) {
+      if (!token) {
         throw new AppError(401, "You are not authorized to access this route");
       }
   
       const verfiedToken = jwt.verify(
-        accessToken as string,
+        token as string,
         config.jwt_access_secret as string
       );
   

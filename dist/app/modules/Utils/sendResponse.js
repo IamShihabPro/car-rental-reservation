@@ -4,8 +4,9 @@ const sendResponse = (res, data) => {
     res.status(data === null || data === void 0 ? void 0 : data.statusCode).json({
         success: data.success,
         statusCode: data === null || data === void 0 ? void 0 : data.statusCode,
-        message: data.message,
-        data: data.data,
+        message: data === null || data === void 0 ? void 0 : data.message,
+        data: data === null || data === void 0 ? void 0 : data.data,
+        token: data === null || data === void 0 ? void 0 : data.token
     });
 };
 exports.default = sendResponse;

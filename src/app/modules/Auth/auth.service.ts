@@ -24,7 +24,7 @@ const signInUser = async (payload: TSignin) => {
         role: isUserExists.role,
     };
 
-    const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
+    const token = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
         expiresIn: config.jwt_access_expires_in,
         });
 
@@ -36,7 +36,7 @@ const signInUser = async (payload: TSignin) => {
 
     const result = await User.findById(isUserExists._id).select('-password');
 
-    return {result, accessToken, refreshToken};
+    return {result, token, refreshToken};
 }
 
 export const AuthServices = {

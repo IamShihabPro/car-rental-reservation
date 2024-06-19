@@ -32,14 +32,14 @@ const signInUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         email: isUserExists.email,
         role: isUserExists.role,
     };
-    const accessToken = jsonwebtoken_1.default.sign(jwtPayload, config_1.default.jwt_access_secret, {
+    const token = jsonwebtoken_1.default.sign(jwtPayload, config_1.default.jwt_access_secret, {
         expiresIn: config_1.default.jwt_access_expires_in,
     });
     const refreshToken = jsonwebtoken_1.default.sign(jwtPayload, config_1.default.jwt_refresh_secret, {
         expiresIn: config_1.default.jwt_refresh_expires_in,
     });
     const result = yield user_model_1.User.findById(isUserExists._id).select('-password');
-    return { result, accessToken, refreshToken };
+    return { result, token, refreshToken };
 });
 exports.AuthServices = {
     signInUser
