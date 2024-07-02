@@ -58,7 +58,7 @@ const getAllBookingsFromDB = async(query: Record<string, unknown>) =>{
     const BookingSearchableFields = ['car', 'date']
     const bookingQuery = new QueryBuilder(Booking.find().populate({
       path: 'user',
-      select: '-password -isDeleted -createdAt -updatedAt' // Exclude sensitive fields from user object
+      select: '-password -isDeleted -createdAt -updatedAt' 
   }).populate('car'), query).search(BookingSearchableFields).filter().sort().paginate().fields();
 
     const result = await bookingQuery.modelQuery
@@ -79,7 +79,10 @@ const getMyBookingsFromDB = async (email: string) => {
       const user = users._id;
   
       const bookings = await Booking.find({ user })
-      .populate('user')
+      .populate({
+        path: 'user',
+        select: '-password -isDeleted -createdAt -updatedAt'
+    })
       .populate('car')
   
       if (!bookings || bookings.length === 0) {

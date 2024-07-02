@@ -64,7 +64,10 @@ const returnCarService = async (bookingId: string, endTime: string) => {
           bookingId,
           { endTime, totalCost },
           { new: true, runValidators: true }
-      ).populate('car').populate('user');
+      ).populate({
+        path: 'user',
+        select: '-password -isDeleted -createdAt -updatedAt' 
+    }).populate('car');
 
       if (!updatedBooking) {
           throw new Error('Failed to update booking');
