@@ -61,7 +61,10 @@ const createBookingIntoDB = (payload, userData) => __awaiter(void 0, void 0, voi
 });
 const getAllBookingsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const BookingSearchableFields = ['car', 'date'];
-    const bookingQuery = new QueryBuilder_1.default(booking_model_1.default.find().populate('user').populate('car'), query).search(BookingSearchableFields).filter().sort().paginate().fields();
+    const bookingQuery = new QueryBuilder_1.default(booking_model_1.default.find().populate({
+        path: 'user',
+        select: '-password -isDeleted -createdAt -updatedAt'
+    }).populate('car'), query).search(BookingSearchableFields).filter().sort().paginate().fields();
     const result = yield bookingQuery.modelQuery;
     return result;
 });
@@ -75,7 +78,10 @@ const getMyBookingsFromDB = (email) => __awaiter(void 0, void 0, void 0, functio
         const users = userData[0];
         const user = users._id;
         const bookings = yield booking_model_1.default.find({ user })
-            .populate('user')
+            .populate({
+            path: 'user',
+            select: '-password -isDeleted -createdAt -updatedAt'
+        })
             .populate('car');
         if (!bookings || bookings.length === 0) {
             console.error('No bookings found');
