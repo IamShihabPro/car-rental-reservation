@@ -46,7 +46,6 @@ const createBookingIntoDB = (payload, userData) => __awaiter(void 0, void 0, voi
         if (!car) {
             throw new Error('Car is not available for booking');
         }
-        // Assign carObjectId to car in the payload
         restPayload.car = carObjectId;
         // Create booking
         const createdBooking = yield booking_model_1.default.create(restPayload);

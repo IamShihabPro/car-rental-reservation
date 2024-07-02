@@ -9,7 +9,6 @@ import { JwtPayload } from "jsonwebtoken";
 import { Types } from "mongoose";
 
 
-
 interface CreateBookingParams extends Partial<TBooking> {
   carId?: string;
 }
@@ -36,7 +35,6 @@ const createBookingIntoDB = async(payload: CreateBookingParams, userData: JwtPay
             throw new Error('Car is not available for booking');
         }
 
-        // Assign carObjectId to car in the payload
         restPayload.car = carObjectId;
 
         // Create booking
