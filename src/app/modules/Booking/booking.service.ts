@@ -5,9 +5,17 @@ import Car from "../Car/cars.model";
 import { User } from "../User/user.model";
 import { TBooking } from "./booking.interface"
 import Booking from "./booking.model"
+import { JwtPayload } from "jsonwebtoken";
 
-const createBookingIntoDB = async(payload: TBooking)=>{
+const createBookingIntoDB = async(payload: TBooking, userData: JwtPayload)=>{
 
+    const userInfo = await User.findOne({ email: userData.email });
+
+    if (!userInfo) {
+      throw new AppError(httpStatus.NOT_FOUND, " User not found!!");
+    }
+    payload.user = userInfo._id;
+    
     const { carId } = payload;
 
     // Check if the car is available
@@ -24,7 +32,7 @@ const createBookingIntoDB = async(payload: TBooking)=>{
 
 const getAllBookingsFromDB = async(query: Record<string, unknown>) =>{
     const BookingSearchableFields = ['carId', 'date']
-    const bookingQuery = new QueryBuilder(Booking.find().populate('userId').populate('carId'), query).search(BookingSearchableFields).filter().sort().paginate().fields();
+    const bookingQuery = new QueryBuilder(Booking.find().populate('user').populate('carId'), query).search(BookingSearchableFields).filter().sort().paginate().fields();
 
     const result = await bookingQuery.modelQuery
     return result
@@ -38,18 +46,18 @@ const getAllBookingsFromDB = async(query: Record<string, unknown>) =>{
 const getMyBookingsFromDB = async (email: string) => {
     try {
   
-      const users = await User.find({ email });
-      if (!users || users.length === 0) {
+      const userData = await User.find({ email });
+      if (!userData || userData.length === 0) {
         console.error('User not found');
         throw new AppError(httpStatus.NOT_FOUND, 'User not found');
       }
   
-      const user = users[0];
+      const users = userData[0];
   
-      const userId = user._id;
+      const user = users._id;
   
-      const bookings = await Booking.find({ userId })
-      .populate('userId')
+      const bookings = await Booking.find({ user })
+      .populate('user')
       .populate('carId')
   
       if (!bookings || bookings.length === 0) {

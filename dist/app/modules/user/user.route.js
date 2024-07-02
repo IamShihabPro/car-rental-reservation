@@ -10,6 +10,7 @@ const user_validation_1 = require("./user.validation");
 const user_controller_1 = require("./user.controller");
 const router = express_1.default.Router();
 router.post('/signup', (0, validateRequest_1.default)(user_validation_1.UserValidation.createUserValidation), user_controller_1.UserControllers.signUpUser);
+router.post('/signin', (0, validateRequest_1.default)(user_validation_1.UserValidation.signinValidation), user_controller_1.UserControllers.signIn);
 router.get('/', user_controller_1.UserControllers.getAllUsers);
 router.get('/:id', user_controller_1.UserControllers.getSingleUser);
 exports.UserRoutes = router;

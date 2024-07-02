@@ -9,7 +9,7 @@ const validateRequest_1 = __importDefault(require("../../middlewares/validateReq
 const cars_validation_1 = require("./cars.validation");
 const cars_controller_1 = require("./cars.controller");
 const auth_1 = require("../../middlewares/auth");
-const user_constant_1 = require("../User/user.constant");
+const user_constant_1 = require("../user/user.constant");
 const router = express_1.default.Router();
 router.post('/', (0, auth_1.auth)(user_constant_1.USER_ROLE.admin), (0, validateRequest_1.default)(cars_validation_1.CarsValidations.createCarsValidation), cars_controller_1.CarsController.createCars);
 router.put('/return', (0, auth_1.auth)(user_constant_1.USER_ROLE.admin), cars_controller_1.CarsController.returnCar);

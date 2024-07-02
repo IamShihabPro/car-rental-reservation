@@ -42,7 +42,7 @@ const deleteCarIntoDB = async(id: string) =>{
 
 
 const returnCarService = async (bookingId: string, endTime: string) => {
-      const booking = await Booking.findById(bookingId).populate('carId').populate('userId');
+      const booking = await Booking.findById(bookingId).populate('carId').populate('user');
 
       if (!booking) {
           throw new Error('Booking not found');
@@ -64,7 +64,7 @@ const returnCarService = async (bookingId: string, endTime: string) => {
           bookingId,
           { endTime, totalCost },
           { new: true, runValidators: true }
-      ).populate('carId').populate('userId');
+      ).populate('carId').populate('user');
 
       if (!updatedBooking) {
           throw new Error('Failed to update booking');

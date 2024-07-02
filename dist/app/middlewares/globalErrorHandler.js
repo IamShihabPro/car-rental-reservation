@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.globalErrorHandler = void 0;
 const zod_1 = require("zod");
 const config_1 = __importDefault(require("../config"));
 const handleCastError_1 = __importDefault(require("../errors/handleCastError"));
@@ -70,4 +71,5 @@ const globalErrorHandler = (err, req, res, next) => {
         stack: config_1.default.NODE_ENV === 'development' ? err === null || err === void 0 ? void 0 : err.stack : null,
     });
 };
-exports.default = globalErrorHandler;
+exports.globalErrorHandler = globalErrorHandler;
+// export default globalErrorHandler;
