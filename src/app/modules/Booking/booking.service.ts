@@ -55,7 +55,7 @@ const createBookingIntoDB = async(payload: CreateBookingParams, userData: JwtPay
 
 
 const getAllBookingsFromDB = async(query: Record<string, unknown>) =>{
-    const BookingSearchableFields = ['car', 'date']
+    const BookingSearchableFields = ['carId', 'date']
     const bookingQuery = new QueryBuilder(Booking.find().populate({
       path: 'user',
       select: '-password -isDeleted -createdAt -updatedAt' 

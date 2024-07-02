@@ -60,7 +60,7 @@ const createBookingIntoDB = (payload, userData) => __awaiter(void 0, void 0, voi
     }
 });
 const getAllBookingsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const BookingSearchableFields = ['car', 'date'];
+    const BookingSearchableFields = ['carId', 'date'];
     const bookingQuery = new QueryBuilder_1.default(booking_model_1.default.find().populate({
         path: 'user',
         select: '-password -isDeleted -createdAt -updatedAt'
