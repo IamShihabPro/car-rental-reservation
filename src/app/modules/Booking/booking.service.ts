@@ -42,7 +42,7 @@ const createBookingIntoDB = async(payload: CreateBookingParams, userData: JwtPay
         // Create booking
         const createdBooking = await Booking.create(restPayload);
 
-        const populatedBooking = await Booking.populate(createdBooking, { path: 'user' });
+        const populatedBooking = await Booking.populate(createdBooking, { path: 'user', select: '-password -createdAt -updatedAt -isDeleted' });
         const result = await Booking.populate(populatedBooking, { path: 'car' });
 
         await Car.updateOne({ _id: carObjectId }, { status: 'unavailable' });
