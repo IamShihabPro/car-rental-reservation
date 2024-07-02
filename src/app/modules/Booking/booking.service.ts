@@ -6,33 +6,54 @@ import { User } from "../User/user.model";
 import { TBooking } from "./booking.interface"
 import Booking from "./booking.model"
 import { JwtPayload } from "jsonwebtoken";
+import { Types } from "mongoose";
 
-const createBookingIntoDB = async(payload: TBooking, userData: JwtPayload)=>{
+
+
+interface CreateBookingParams extends Partial<TBooking> {
+  carId?: string;
+}
+
+
+const createBookingIntoDB = async(payload: CreateBookingParams, userData: JwtPayload)=>{
 
     const userInfo = await User.findOne({ email: userData.email });
 
     if (!userInfo) {
       throw new AppError(httpStatus.NOT_FOUND, " User not found!!");
     }
+
     payload.user = userInfo._id;
     
-    const { carId } = payload;
+    const { carId, ...restPayload } = payload;
 
-    // Check if the car is available
-    const car = await Car.findOne({ _id: carId, status: 'available' });
-    if (!car) {
-      throw new Error('Car is not available for booking');
+    if (carId) {
+        // Convert carId to ObjectId
+        const carObjectId = new Types.ObjectId(carId);
+
+        // Check if the car is available
+        const car = await Car.findOne({ _id: carObjectId, status: 'available' });
+        if (!car) {
+            throw new Error('Car is not available for booking');
+        }
+
+        // Assign carObjectId to car in the payload
+        restPayload.car = carObjectId;
+
+        // Create booking
+        const result = await Booking.create(restPayload);
+        await Car.updateOne({ _id: carObjectId }, { status: 'unavailable' });
+        return result;
+
+    } else {
+        throw new Error('carId is required');
     }
-
-    const result = await Booking.create(payload)
-    await Car.updateOne({ _id: carId }, { status: 'unavailable' });
-    return result
 }
 
 
 const getAllBookingsFromDB = async(query: Record<string, unknown>) =>{
-    const BookingSearchableFields = ['carId', 'date']
-    const bookingQuery = new QueryBuilder(Booking.find().populate('user').populate('carId'), query).search(BookingSearchableFields).filter().sort().paginate().fields();
+    const BookingSearchableFields = ['car', 'date']
+    const bookingQuery = new QueryBuilder(Booking.find().populate('user').populate('car'), query).search(BookingSearchableFields).filter().sort().paginate().fields();
 
     const result = await bookingQuery.modelQuery
     return result
@@ -58,7 +79,7 @@ const getMyBookingsFromDB = async (email: string) => {
   
       const bookings = await Booking.find({ user })
       .populate('user')
-      .populate('carId')
+      .populate('car')
   
       if (!bookings || bookings.length === 0) {
         console.error('No bookings found');

@@ -13,13 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserServices = void 0;
-const http_status_1 = __importDefault(require("http-status"));
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const user_model_1 = require("./user.model");
-const AppError_1 = __importDefault(require("../../errors/AppError"));
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const config_1 = __importDefault(require("../../config"));
 const signUpUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const existingUser = yield user_model_1.User.findOne({ email: payload.email });
     if (existingUser) {
@@ -43,31 +38,8 @@ const getSingleUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.User.findById(id);
     return result;
 });
-const signInUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const isUserExists = yield user_model_1.User.findOne({ email: payload.email }).select('+password');
-    if (!isUserExists) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "This user is not found");
-    }
-    const isPasswordMatch = yield bcryptjs_1.default.compare(payload.password, isUserExists.password);
-    if (!isPasswordMatch) {
-        throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "Incorrect password");
-    }
-    const jwtPayload = {
-        email: isUserExists.email,
-        role: isUserExists.role,
-    };
-    const token = jsonwebtoken_1.default.sign(jwtPayload, config_1.default.jwt_access_secret, {
-        expiresIn: config_1.default.jwt_access_expires_in,
-    });
-    const refreshToken = jsonwebtoken_1.default.sign(jwtPayload, config_1.default.jwt_refresh_secret, {
-        expiresIn: config_1.default.jwt_refresh_expires_in,
-    });
-    const result = yield user_model_1.User.findById(isUserExists._id).select('-password');
-    return { result, token, refreshToken };
-});
 exports.UserServices = {
     signUpUserIntoDB,
     getAllUsersFromDB,
-    getSingleUser,
-    signInUser,
+    getSingleUser
 };

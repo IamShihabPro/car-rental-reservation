@@ -12,13 +12,6 @@ const createUserValidation = zod_1.z.object({
         address: zod_1.z.string().nonempty('Address is required'),
     })
 });
-const signinValidation = zod_1.z.object({
-    body: zod_1.z.object({
-        email: zod_1.z.string().email('Invalid email address'),
-        password: zod_1.z.string().max(20, 'Password is required'),
-    }),
-});
 exports.UserValidation = {
     createUserValidation,
-    signinValidation
 };

@@ -14,11 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookingControllers = void 0;
 const http_status_1 = __importDefault(require("http-status"));
-const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
-const sendResponse_1 = __importDefault(require("../utils/sendResponse"));
+const catchAsync_1 = __importDefault(require("../Utils/catchAsync"));
+const sendResponse_1 = __importDefault(require("../Utils/sendResponse"));
 const booking_service_1 = require("./booking.service");
 const createBooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_service_1.BookingServices.createBookingIntoDB(req.body);
+    const result = yield booking_service_1.BookingServices.createBookingIntoDB(req.body, req.user);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

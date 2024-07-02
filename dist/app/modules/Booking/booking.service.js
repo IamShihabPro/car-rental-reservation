@@ -8,6 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -16,23 +27,39 @@ exports.BookingServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
-const cars_model_1 = __importDefault(require("../car/cars.model"));
-const user_model_1 = require("../user/user.model");
+const cars_model_1 = __importDefault(require("../Car/cars.model"));
+const user_model_1 = require("../User/user.model");
 const booking_model_1 = __importDefault(require("./booking.model"));
-const createBookingIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { carId } = payload;
-    // Check if the car is available
-    const car = yield cars_model_1.default.findOne({ _id: carId, status: 'available' });
-    if (!car) {
-        throw new Error('Car is not available for booking');
+const mongoose_1 = require("mongoose");
+const createBookingIntoDB = (payload, userData) => __awaiter(void 0, void 0, void 0, function* () {
+    const userInfo = yield user_model_1.User.findOne({ email: userData.email });
+    if (!userInfo) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, " User not found!!");
     }
-    const result = yield booking_model_1.default.create(payload);
-    yield cars_model_1.default.updateOne({ _id: carId }, { status: 'unavailable' });
-    return result;
+    payload.user = userInfo._id;
+    const { carId } = payload, restPayload = __rest(payload, ["carId"]);
+    if (carId) {
+        // Convert carId to ObjectId
+        const carObjectId = new mongoose_1.Types.ObjectId(carId);
+        // Check if the car is available
+        const car = yield cars_model_1.default.findOne({ _id: carObjectId, status: 'available' });
+        if (!car) {
+            throw new Error('Car is not available for booking');
+        }
+        // Assign carObjectId to car in the payload
+        restPayload.car = carObjectId;
+        // Create booking
+        const result = yield booking_model_1.default.create(restPayload);
+        yield cars_model_1.default.updateOne({ _id: carObjectId }, { status: 'unavailable' });
+        return result;
+    }
+    else {
+        throw new Error('carId is required');
+    }
 });
 const getAllBookingsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const BookingSearchableFields = ['carId', 'date'];
-    const bookingQuery = new QueryBuilder_1.default(booking_model_1.default.find().populate('userId').populate('carId'), query).search(BookingSearchableFields).filter().sort().paginate().fields();
+    const BookingSearchableFields = ['car', 'date'];
+    const bookingQuery = new QueryBuilder_1.default(booking_model_1.default.find().populate('user').populate('car'), query).search(BookingSearchableFields).filter().sort().paginate().fields();
     const result = yield bookingQuery.modelQuery;
     return result;
 });
@@ -42,16 +69,16 @@ const getAllBookingsFromDB = (query) => __awaiter(void 0, void 0, void 0, functi
 // }
 const getMyBookingsFromDB = (email) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield user_model_1.User.find({ email });
-        if (!users || users.length === 0) {
+        const userData = yield user_model_1.User.find({ email });
+        if (!userData || userData.length === 0) {
             console.error('User not found');
             throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
         }
-        const user = users[0];
-        const userId = user._id;
-        const bookings = yield booking_model_1.default.find({ userId })
-            .populate('userId')
-            .populate('carId');
+        const users = userData[0];
+        const user = users._id;
+        const bookings = yield booking_model_1.default.find({ user })
+            .populate('user')
+            .populate('car');
         if (!bookings || bookings.length === 0) {
             console.error('No bookings found');
             throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'No bookings found');

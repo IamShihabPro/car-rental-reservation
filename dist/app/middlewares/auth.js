@@ -16,8 +16,8 @@ exports.auth = void 0;
 const AppError_1 = __importDefault(require("../errors/AppError"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../config"));
-const catchAsync_1 = __importDefault(require("../modules/utils/catchAsync"));
-const user_model_1 = require("../modules/user/user.model");
+const catchAsync_1 = __importDefault(require("../modules/Utils/catchAsync"));
+const user_model_1 = require("../modules/User/user.model");
 const http_status_1 = __importDefault(require("http-status"));
 const sliptToken = (authHeader) => {
     if (!authHeader) {

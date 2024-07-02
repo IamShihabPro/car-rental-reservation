@@ -14,10 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserControllers = void 0;
 const http_status_1 = __importDefault(require("http-status"));
-const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
-const sendResponse_1 = __importDefault(require("../utils/sendResponse"));
+const catchAsync_1 = __importDefault(require("../Utils/catchAsync"));
+const sendResponse_1 = __importDefault(require("../Utils/sendResponse"));
 const user_service_1 = require("./user.service");
-const config_1 = __importDefault(require("../../config"));
 const signUpUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_service_1.UserServices.signUpUserIntoDB(req.body);
     (0, sendResponse_1.default)(res, {
@@ -46,23 +45,8 @@ const getSingleUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         data: result,
     });
 }));
-const signIn = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { result, token, refreshToken } = yield user_service_1.UserServices.signInUser(req.body);
-    res.cookie('refreshToken', refreshToken, {
-        secure: config_1.default.NODE_ENV === 'production',
-        httpOnly: true
-    });
-    (0, sendResponse_1.default)(res, {
-        statusCode: http_status_1.default.OK,
-        success: true,
-        message: 'User logged in successfully',
-        data: result,
-        token: token
-    });
-}));
 exports.UserControllers = {
     signUpUser,
     getAllUsers,
     getSingleUser,
-    signIn,
 };

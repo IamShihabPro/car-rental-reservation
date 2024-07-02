@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CarsServices = void 0;
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
-const booking_model_1 = __importDefault(require("../booking/booking.model"));
+const booking_model_1 = __importDefault(require("../Booking/booking.model"));
 const cars_model_1 = __importDefault(require("./cars.model"));
 const cars_utils_1 = require("./cars.utils");
 const createCarsIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -45,16 +45,16 @@ const deleteCarIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const returnCarService = (bookingId, endTime) => __awaiter(void 0, void 0, void 0, function* () {
-    const booking = yield booking_model_1.default.findById(bookingId).populate('carId').populate('userId');
+    const booking = yield booking_model_1.default.findById(bookingId).populate('car').populate('user');
     if (!booking) {
         throw new Error('Booking not found');
     }
-    const car = yield cars_model_1.default.findByIdAndUpdate(booking.carId, { status: 'available' }, { new: true });
+    const car = yield cars_model_1.default.findByIdAndUpdate(booking.car, { status: 'available' }, { new: true });
     if (!car) {
         throw new Error('Car not found');
     }
     const totalCost = (0, cars_utils_1.calculateTotalCost)(booking.startTime, endTime, car.pricePerHour);
-    const updatedBooking = yield booking_model_1.default.findByIdAndUpdate(bookingId, { endTime, totalCost }, { new: true, runValidators: true }).populate('carId').populate('userId');
+    const updatedBooking = yield booking_model_1.default.findByIdAndUpdate(bookingId, { endTime, totalCost }, { new: true, runValidators: true }).populate('car').populate('user');
     if (!updatedBooking) {
         throw new Error('Failed to update booking');
     }
