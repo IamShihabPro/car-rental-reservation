@@ -14,7 +14,6 @@ interface CreateBookingParams extends Partial<TBooking> {
   carId?: string;
 }
 
-
 const createBookingIntoDB = async(payload: CreateBookingParams, userData: JwtPayload)=>{
 
     const userInfo = await User.findOne({ email: userData.email });
@@ -41,7 +40,11 @@ const createBookingIntoDB = async(payload: CreateBookingParams, userData: JwtPay
         restPayload.car = carObjectId;
 
         // Create booking
-        const result = await Booking.create(restPayload);
+        const createdBooking = await Booking.create(restPayload);
+
+        const populatedBooking = await Booking.populate(createdBooking, { path: 'user' });
+        const result = await Booking.populate(populatedBooking, { path: 'car' });
+
         await Car.updateOne({ _id: carObjectId }, { status: 'unavailable' });
         return result;
 
@@ -58,11 +61,6 @@ const getAllBookingsFromDB = async(query: Record<string, unknown>) =>{
     const result = await bookingQuery.modelQuery
     return result
 }
-
-// const getASingleBookingsFromDB =  async(id: string) =>{
-//     const result = await Booking.findById(id)
-//     return result
-// }
 
 const getMyBookingsFromDB = async (email: string) => {
     try {
@@ -98,6 +96,5 @@ const getMyBookingsFromDB = async (email: string) => {
 export const BookingServices = {
     createBookingIntoDB,
     getAllBookingsFromDB,
-    // getASingleBookingsFromDB,
     getMyBookingsFromDB
 }

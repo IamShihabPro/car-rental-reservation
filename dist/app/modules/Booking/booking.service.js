@@ -49,7 +49,9 @@ const createBookingIntoDB = (payload, userData) => __awaiter(void 0, void 0, voi
         // Assign carObjectId to car in the payload
         restPayload.car = carObjectId;
         // Create booking
-        const result = yield booking_model_1.default.create(restPayload);
+        const createdBooking = yield booking_model_1.default.create(restPayload);
+        const populatedBooking = yield booking_model_1.default.populate(createdBooking, { path: 'user' });
+        const result = yield booking_model_1.default.populate(populatedBooking, { path: 'car' });
         yield cars_model_1.default.updateOne({ _id: carObjectId }, { status: 'unavailable' });
         return result;
     }
@@ -63,10 +65,6 @@ const getAllBookingsFromDB = (query) => __awaiter(void 0, void 0, void 0, functi
     const result = yield bookingQuery.modelQuery;
     return result;
 });
-// const getASingleBookingsFromDB =  async(id: string) =>{
-//     const result = await Booking.findById(id)
-//     return result
-// }
 const getMyBookingsFromDB = (email) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userData = yield user_model_1.User.find({ email });
@@ -93,6 +91,5 @@ const getMyBookingsFromDB = (email) => __awaiter(void 0, void 0, void 0, functio
 exports.BookingServices = {
     createBookingIntoDB,
     getAllBookingsFromDB,
-    // getASingleBookingsFromDB,
     getMyBookingsFromDB
 };
