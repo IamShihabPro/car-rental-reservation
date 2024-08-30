@@ -32,6 +32,7 @@ const capitalizeWords = (str: string) => {
 carSchema.pre('save', function (next) {
     this.brand = capitalizeWords(this.brand);
     this.name = capitalizeWords(this.name);
+    this.color = capitalizeWords(this.color);
     next();
 });
 
