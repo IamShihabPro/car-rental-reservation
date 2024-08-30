@@ -21,6 +21,20 @@ const carSchema = new Schema<TCar>({
 },
 );
 
+const capitalizeFirstLetter = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
+const capitalizeWords = (str: string) => {
+    return str.split(' ').map(word => capitalizeFirstLetter(word)).join(' ');
+  };
+
+carSchema.pre('save', function (next) {
+    this.brand = capitalizeWords(this.brand);
+    this.name = capitalizeWords(this.name);
+    next();
+});
+
 // Middleware to exclude deleted cars
 carSchema.pre<Query<TCar, TCar>>('find', function(next) {
     this.where({ isDeleted: { $ne: true } });
