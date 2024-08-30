@@ -8,6 +8,7 @@ const createCarsValidation = zod_1.z.object({
         name: zod_1.z.string(),
         description: zod_1.z.string(),
         color: zod_1.z.string(),
+        image: zod_1.z.string(),
         isElectric: zod_1.z.boolean(),
         features: zod_1.z.array(zod_1.z.string()),
         pricePerHour: zod_1.z.number().positive(),

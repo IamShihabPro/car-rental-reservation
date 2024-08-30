@@ -8,6 +8,10 @@ const bookingSchema = new Schema<TBooking>({
   startTime: { type: String, required: true },
   endTime: { type: String, default: null },
   totalCost: { type: Number, default: 0 },
+  idType: { type: String, required: true },
+  idNumber: { type: String, required: true },
+  drivingLicense: { type: String, required: true },
+  paymentMethod: { type: String, required: true },
 }, {
   timestamps: true
 });

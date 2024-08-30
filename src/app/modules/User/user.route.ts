@@ -10,6 +10,7 @@ router.post('/signup',
 
 router.get('/', UserControllers.getAllUsers)
 router.get('/:id', UserControllers.getSingleUser)
+router.get('/user/:email', UserControllers.getSingleUserByEmail)
 
 
 export const UserRoutes = router;

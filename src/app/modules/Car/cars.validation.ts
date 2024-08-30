@@ -3,25 +3,33 @@ import { z } from 'zod';
 
 const createCarsValidation = z.object({
   body: z.object({
+    brand: z.string(),
     name: z.string(),
     description: z.string(),
     color: z.string(),
+    image: z.string(),
     isElectric: z.boolean(),
     features: z.array(z.string()),
+    status: z.enum(['available', 'unavailable']).optional(),
     pricePerHour: z.number().positive(),
+    gps: z.enum(['yes', 'no']),
+    childSeat: z.enum(['yes', 'no']),
   })
 });
 
 const updateCarsValidation = z.object({
   body: z.object({
-    name: z.string().optional(),
-    description: z.string().optional(),
-    color: z.string().optional(),
-    isElectric: z.boolean().optional(),
+    brand: z.string(),
+    name: z.string(),
+    description: z.string(),
+    color: z.string(),
+    image: z.string(),
+    isElectric: z.boolean(),
+    features: z.array(z.string()),
     status: z.enum(['available', 'unavailable']).optional(),
-    features: z.array(z.string()).optional(),
-    pricePerHour: z.number().positive().optional(),
-    isDeleted: z.boolean().optional()
+    pricePerHour: z.number().positive(),
+    gps: z.enum(['yes', 'no']),
+    childSeat: z.enum(['yes', 'no']),
   })
 });
 

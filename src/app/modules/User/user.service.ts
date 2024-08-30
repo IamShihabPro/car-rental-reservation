@@ -33,8 +33,14 @@ const getSingleUser = async(id: string) =>{
   return result
 }
 
+const getSingleUserByEmail = async(email: string) =>{
+  const result = await User.findOne({email})
+  return result
+}
+
 export const UserServices = {
   signUpUserIntoDB,
   getAllUsersFromDB,
-  getSingleUser
+  getSingleUser,
+  getSingleUserByEmail
 };
