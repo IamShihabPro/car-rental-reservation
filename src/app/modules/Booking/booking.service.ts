@@ -99,11 +99,74 @@ const getMyBookingsFromDB = async (email: string) => {
       throw error;
     }
   };
+
+  const updateBookingIntoDB = async(id: string, payload: Partial<TBooking>)=>{
+    const result = await Booking.findByIdAndUpdate(id, payload, {new: true})
+    return result
+  }
+
+
+
+  //   const result = await Car.findByIdAndUpdate(id, {isDeleted: true}, {new: true})
+
+  const cancelBookingIntoDB = async (id: string) => {
+    // Find the booking by ID and ensure it belongs to the user
+    const booking = await Booking.findByIdAndUpdate(
+      id ,
+      { isCancel: true },
+      { new: true }
+    );
   
+    if (!booking) {
+      throw new Error("Booking not found or you are not authorized to cancel this booking");
+    }
+  
+    // Update the car status to 'available' if the booking is successfully cancelled
+    const car = await Car.findByIdAndUpdate(
+      booking.car,
+      { status: "available" },
+      { new: true }
+    );
+  
+    if (!car) {
+      throw new Error("Car not found");
+    }
+  
+    return booking;
+  };
+
+
+  const deleteBookingIntoDB = async (id: string) => {
+    const booking = await Booking.findByIdAndUpdate(
+      id ,
+      { isDelete: true },
+      { new: true }
+    );
+  
+    if (!booking) {
+      throw new Error("Booking not found or you are not authorized to cancel this booking");
+    }
+  
+    // Update the car status to 'available' if the booking is successfully cancelled
+    const car = await Car.findByIdAndUpdate(
+      booking.car,
+      { status: "available" },
+      { new: true }
+    );
+  
+    if (!car) {
+      throw new Error("Car not found");
+    }
+  };
+  
+  export default deleteBookingIntoDB;
   
 
 export const BookingServices = {
     createBookingIntoDB,
     getAllBookingsFromDB,
-    getMyBookingsFromDB
+    getMyBookingsFromDB,
+    updateBookingIntoDB,
+    cancelBookingIntoDB,
+    deleteBookingIntoDB
 }

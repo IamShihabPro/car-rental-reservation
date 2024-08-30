@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Query, Schema, model } from 'mongoose';
 import { TBooking } from './booking.interface';
 
 const bookingSchema = new Schema<TBooking>({
@@ -12,9 +12,26 @@ const bookingSchema = new Schema<TBooking>({
   idNumber: { type: String, required: true },
   drivingLicense: { type: String, required: true },
   paymentMethod: { type: String, required: true },
+  isConfirm:  { type: Boolean, required: true, default: false },
+  isCancel:  { type: Boolean, required: true, default: false },
+  isDelete:  { type: Boolean, required: true, default: false },
 }, {
   timestamps: true
 });
+
+
+// Middleware to exclude deleted cars
+bookingSchema.pre<Query<TBooking, TBooking>>('find', function(next) {
+  this.where({ isDeleted: { $ne: true } });
+  this.where({ isCancel: { $ne: true } });
+  next();
+});
+
+bookingSchema.pre<Query<TBooking, TBooking>>('findOne', function(next) {
+  this.where({ isDeleted: { $ne: true } });
+  this.where({ isCancel: { $ne: true } });
+  next();
+})
 
 const Booking = model<TBooking>('Booking', bookingSchema);
 
