@@ -12,8 +12,8 @@ const createCarsValidation = z.object({
     features: z.array(z.string()),
     status: z.enum(['available', 'unavailable']).optional(),
     pricePerHour: z.number().positive(),
-    gps: z.enum(['yes', 'no']),
-    childSeat: z.enum(['yes', 'no']),
+    gps: z.boolean().optional(),
+    childSeat: z.boolean().optional(),
   })
 });
 
@@ -24,12 +24,12 @@ const updateCarsValidation = z.object({
     description: z.string(),
     color: z.string(),
     image: z.string(),
-    isElectric: z.boolean(),
+    isElectric: z.boolean().optional(),
     features: z.array(z.string()),
     status: z.enum(['available', 'unavailable']).optional(),
     pricePerHour: z.number().positive(),
-    gps: z.enum(['yes', 'no']),
-    childSeat: z.enum(['yes', 'no']),
+    gps: z.boolean().optional(),
+    childSeat: z.boolean().optional(),
   })
 });
 

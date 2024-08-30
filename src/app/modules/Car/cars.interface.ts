@@ -10,7 +10,7 @@ export interface TCar {
   status: TCarStatus; 
   features: string[];
   pricePerHour: number;
-  gps: 'yes' | 'no';
-  childSeat: 'yes' | 'no';
+  gps: boolean;
+  childSeat: boolean;
   isDeleted: boolean;
 }

@@ -8,12 +8,12 @@ const carSchema = new Schema<TCar>({
     description: { type: String, required: true },
     color: { type: String, required: true },
     image: { type: String, required: true },
-    isElectric: { type: Boolean, required: true },
+    isElectric: { type: Boolean, required: true, default: false },
     status: { type: String, enum: ['available', 'unavailable'], default: 'available' },
     features: { type: [String], required: true },
     pricePerHour: { type: Number, required: true },
-    gps:  { type: String, enum: ['yes', 'no'], default: 'no' },
-    childSeat:  { type: String, enum: ['yes', 'no'], default: 'no' },
+    gps:  { type: Boolean, required: true, default: false },
+    childSeat:  { type: Boolean, required: true, default: false },
     isDeleted: { type: Boolean, default: false }
 },
 {
