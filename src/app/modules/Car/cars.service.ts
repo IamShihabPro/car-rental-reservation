@@ -62,7 +62,7 @@ const returnCarService = async (bookingId: string, endTime: string) => {
 
       const updatedBooking = await Booking.findByIdAndUpdate(
           bookingId,
-          { endTime, totalCost },
+          { endTime, totalCost, isCarReturn: true },
           { new: true, runValidators: true }
       ).populate({
         path: 'user',

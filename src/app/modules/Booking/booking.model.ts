@@ -14,6 +14,8 @@ const bookingSchema = new Schema<TBooking>({
   paymentMethod: { type: String, required: true },
   isConfirm:  { type: Boolean, required: true, default: false },
   isCancel:  { type: Boolean, required: true, default: false },
+  isCarReturn:  { type: Boolean, required: true, default: false },
+  isPaid:  { type: Boolean, required: true, default: false },
   isDelete:  { type: Boolean, required: true, default: false },
 }, {
   timestamps: true

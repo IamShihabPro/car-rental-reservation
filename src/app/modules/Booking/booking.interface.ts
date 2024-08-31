@@ -15,5 +15,7 @@ export type TBooking = {
   paymentMethod: string;
   isConfirm: boolean;
   isCancel: boolean
+  isCarReturn: boolean
+  isPaid: boolean
   isDelete: boolean
 }
