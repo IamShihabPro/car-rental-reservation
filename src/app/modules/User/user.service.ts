@@ -38,9 +38,15 @@ const getSingleUserByEmail = async(email: string) =>{
   return result
 }
 
+const updateUserIntoDB = async(id: string, payload: Partial<TUser>)=>{
+  const result = await User.findByIdAndUpdate(id, payload, {new: true})
+  return result
+}
+
 export const UserServices = {
   signUpUserIntoDB,
   getAllUsersFromDB,
   getSingleUser,
-  getSingleUserByEmail
+  getSingleUserByEmail,
+  updateUserIntoDB
 };
