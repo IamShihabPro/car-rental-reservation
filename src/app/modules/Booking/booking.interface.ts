@@ -12,6 +12,7 @@ export type TBooking = {
   idType: string;
   idNumber: string;
   drivingLicense: string;
+  transactionId: string;
   paymentMethod: string;
   isConfirm: boolean;
   isCancel: boolean

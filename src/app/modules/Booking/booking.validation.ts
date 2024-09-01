@@ -12,7 +12,6 @@ const createBookingValidation = z.object({
     idType: z.string(),
     idNumber: z.string(),
     drivingLicense: z.string(),
-    paymentMethod: z.string(),
   }),
 });
 
@@ -28,7 +27,6 @@ const updateBookingValidation = z.object({
     idType: z.string().optional(),
     idNumber: z.string().optional(),
     drivingLicense: z.string().optional(),
-    paymentMethod: z.string().optional(),
   }),
 });
 
