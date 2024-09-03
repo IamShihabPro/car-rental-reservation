@@ -54,7 +54,7 @@ const returnCarService = (bookingId, endTime) => __awaiter(void 0, void 0, void 
         throw new Error('Car not found');
     }
     const totalCost = (0, cars_utils_1.calculateTotalCost)(booking.startTime, endTime, car.pricePerHour);
-    const updatedBooking = yield booking_model_1.default.findByIdAndUpdate(bookingId, { endTime, totalCost }, { new: true, runValidators: true }).populate({
+    const updatedBooking = yield booking_model_1.default.findByIdAndUpdate(bookingId, { endTime, totalCost, isCarReturn: true }, { new: true, runValidators: true }).populate({
         path: 'user',
         select: '-password -isDeleted -createdAt -updatedAt'
     }).populate('car');

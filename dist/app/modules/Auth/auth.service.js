@@ -28,6 +28,10 @@ const signInUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     if (!isPasswordMatch) {
         throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "Incorrect password");
     }
+    const isDeleted = isUserExists === null || isUserExists === void 0 ? void 0 : isUserExists.isDeleted;
+    if (isDeleted) {
+        throw new AppError_1.default(http_status_1.default.FORBIDDEN, 'This user is deleted !');
+    }
     const jwtPayload = {
         email: isUserExists.email,
         role: isUserExists.role,

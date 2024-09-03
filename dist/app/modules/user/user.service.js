@@ -38,8 +38,23 @@ const getSingleUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.User.findById(id);
     return result;
 });
+const getSingleUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findOne({ email });
+    return result;
+});
+const updateUserIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findByIdAndUpdate(id, payload, { new: true });
+    return result;
+});
+const deleteUserIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+    return result;
+});
 exports.UserServices = {
     signUpUserIntoDB,
     getAllUsersFromDB,
-    getSingleUser
+    getSingleUser,
+    getSingleUserByEmail,
+    updateUserIntoDB,
+    deleteUserIntoDB
 };

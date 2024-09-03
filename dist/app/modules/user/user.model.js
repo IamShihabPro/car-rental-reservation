@@ -19,7 +19,8 @@ const config_1 = __importDefault(require("../../config"));
 const userSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    role: { type: String, enum: ['user', 'admin'], required: true },
+    image: { type: String, required: true },
+    role: { type: String, enum: ['user', 'admin'], default: 'user' },
     password: { type: String, required: true },
     phone: { type: String, required: true },
     address: { type: String, required: true },
@@ -38,6 +39,14 @@ userSchema.pre('save', function (next) {
 });
 userSchema.post('save', function (doc, next) {
     doc.password = '';
+    next();
+});
+userSchema.pre('find', function (next) {
+    this.where({ isDeleted: { $ne: true } });
+    next();
+});
+userSchema.pre('findOne', function (next) {
+    this.where({ isDeleted: { $ne: true } });
     next();
 });
 userSchema.index({ email: 1 }, { unique: true });

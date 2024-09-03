@@ -3,17 +3,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // car.model.ts
 const mongoose_1 = require("mongoose");
 const carSchema = new mongoose_1.Schema({
+    brand: { type: String, required: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
     color: { type: String, required: true },
     image: { type: String, required: true },
-    isElectric: { type: Boolean, required: true },
+    location: { type: String, required: true },
+    isElectric: { type: Boolean, required: true, default: false },
     status: { type: String, enum: ['available', 'unavailable'], default: 'available' },
     features: { type: [String], required: true },
     pricePerHour: { type: Number, required: true },
+    gps: { type: Boolean, required: true, default: false },
+    childSeat: { type: Boolean, required: true, default: false },
     isDeleted: { type: Boolean, default: false }
 }, {
     timestamps: true,
+});
+const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+const capitalizeWords = (str) => {
+    return str.split(' ').map(word => capitalizeFirstLetter(word)).join(' ');
+};
+carSchema.pre('save', function (next) {
+    this.brand = capitalizeWords(this.brand);
+    this.name = capitalizeWords(this.name);
+    this.color = capitalizeWords(this.color);
+    this.location = capitalizeWords(this.location);
+    next();
 });
 // Middleware to exclude deleted cars
 carSchema.pre('find', function (next) {

@@ -33,10 +33,12 @@ const booking_model_1 = __importDefault(require("./booking.model"));
 const mongoose_1 = require("mongoose");
 const createBookingIntoDB = (payload, userData) => __awaiter(void 0, void 0, void 0, function* () {
     const userInfo = yield user_model_1.User.findOne({ email: userData.email });
+    // const transactionId = `TXN-${Date.now()}`;
     if (!userInfo) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, " User not found!!");
     }
     payload.user = userInfo._id;
+    // payload.transactionId = transactionId;
     const { carId } = payload, restPayload = __rest(payload, ["carId"]);
     if (carId) {
         // Convert carId to ObjectId
@@ -71,6 +73,10 @@ const getAllBookingsFromDB = (query) => __awaiter(void 0, void 0, void 0, functi
     const result = yield bookingQuery.modelQuery;
     return result;
 });
+const getSingleBooking = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield booking_model_1.default.findById(id);
+    return result;
+});
 const getMyBookingsFromDB = (email) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userData = yield user_model_1.User.find({ email });
@@ -97,8 +103,42 @@ const getMyBookingsFromDB = (email) => __awaiter(void 0, void 0, void 0, functio
         throw error;
     }
 });
+const updateBookingIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield booking_model_1.default.findByIdAndUpdate(id, payload, { new: true });
+    return result;
+});
+//   const result = await Car.findByIdAndUpdate(id, {isDeleted: true}, {new: true})
+const cancelBookingIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    // Find the booking by ID and ensure it belongs to the user
+    const booking = yield booking_model_1.default.findByIdAndUpdate(id, { isCancel: true }, { new: true });
+    if (!booking) {
+        throw new Error("Booking not found or you are not authorized to cancel this booking");
+    }
+    // Update the car status to 'available' if the booking is successfully cancelled
+    const car = yield cars_model_1.default.findByIdAndUpdate(booking.car, { status: "available" }, { new: true });
+    if (!car) {
+        throw new Error("Car not found");
+    }
+    return booking;
+});
+const deleteBookingIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const booking = yield booking_model_1.default.findByIdAndUpdate(id, { isDelete: true }, { new: true });
+    if (!booking) {
+        throw new Error("Booking not found or you are not authorized to cancel this booking");
+    }
+    // Update the car status to 'available' if the booking is successfully cancelled
+    const car = yield cars_model_1.default.findByIdAndUpdate(booking.car, { status: "available" }, { new: true });
+    if (!car) {
+        throw new Error("Car not found");
+    }
+});
+exports.default = deleteBookingIntoDB;
 exports.BookingServices = {
     createBookingIntoDB,
     getAllBookingsFromDB,
-    getMyBookingsFromDB
+    getMyBookingsFromDB,
+    updateBookingIntoDB,
+    cancelBookingIntoDB,
+    deleteBookingIntoDB,
+    getSingleBooking,
 };

@@ -6,15 +6,35 @@ Hosted in vercel -> https://car-rent-project-orcin.vercel.app
 ## Clone the Repository
 First, clone your project repository from GitHub (or any other version control system) to your local machine.
 
-1. git clone repository-url
+```js
+git clone https://github.com/IamShihabPro/car-rental-reservation.git
+```
 
-2. cd project-directory
+cd project-directory and install
 
-3. npm install
+```js
+npm i
+```
+
 
 ## Create a .env file in the root directory:
 
-1. PORT=5000
-2. DATABASE_URL=mongodb://localhost:27017/your_database_name
+```js
+PORT=
+DATABASE_URL
+BCRYPT_SALT_ROUNDS=
+JWT_ACCESS_SECRET=
+JWT_ACCESS_EXPIRES_IN=
+JWT_REFRESH_SECRET=
+JWT_REFRESH_EXPIRES_IN=
+NODE_ENV=
+STORE_ID=
+SIGNATURE_KEY=
+PAYMENT_URL=
+PAYMENT_VERIFY_URL=
+```
 
-## npm run start:dev 
+## npm project
+```js
+npm run start:dev 
+```

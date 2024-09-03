@@ -35,16 +35,16 @@ const getAllBookings = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
         data: result,
     });
 }));
-// const getSingleBookings = catchAsync(async(req, res)=>{
-//     const {mybookings} = req.params
-//     const result =  await BookingServices.getASingleBookingsFromDB(mybookings)
-//     sendResponse(res, {
-//         statusCode: httpStatus.OK,
-//         success: true,
-//         message: 'Booking are retrived succesfully',
-//         data: result,
-//       });
-// })
+const getSingleBookings = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield booking_service_1.BookingServices.getSingleBooking(id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Booking are retrived succesfully',
+        data: result,
+    });
+}));
 const getMyBookings = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = req.user;
     const bookings = yield booking_service_1.BookingServices.getMyBookingsFromDB(email);
@@ -63,9 +63,42 @@ const getMyBookings = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         data: bookings,
     });
 }));
+const updateBooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield booking_service_1.BookingServices.updateBookingIntoDB(id, req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Booking is updated succesfully',
+        data: result,
+    });
+}));
+const cancelBooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield booking_service_1.BookingServices.cancelBookingIntoDB(id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Booking is canceled successfully',
+        data: result,
+    });
+}));
+const deleteBooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield booking_service_1.BookingServices.deleteBookingIntoDB(id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Booking is deleted successfully',
+        data: result,
+    });
+}));
 exports.BookingControllers = {
     createBooking,
     getAllBookings,
-    // getSingleBookings,
-    getMyBookings
+    getSingleBookings,
+    getMyBookings,
+    updateBooking,
+    cancelBooking,
+    deleteBooking
 };

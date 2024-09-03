@@ -15,4 +15,8 @@ exports.default = {
     jwt_access_expires_in: process.env.JWT_ACCESS_EXPIRES_IN,
     jwt_refresh_secret: process.env.JWT_REFRESH_SECRET,
     jwt_refresh_expires_in: process.env.JWT_REFRESH_EXPIRES_IN,
+    aamar_pay_payment_url: process.env.PAYMENT_URL,
+    aamar_pay_signature_key: process.env.SIGNATURE_KEY,
+    aamar_pay_store_id: process.env.STORE_ID,
+    aamar_pay_payment_verify_url: process.env.PAYMENT_VERIFY_URL,
 };
