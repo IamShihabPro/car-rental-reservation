@@ -15,16 +15,8 @@ app.use(cors({origin: ['https://car-rental-frontend-ashen.vercel.app']}))
 // application routes
 app.use('/api', router)
 
-
-// const test = (req: Request, res: Response) => {
-//   const a = 10
-//   res.send(a)
-// }
-
-// app.get('/', test)
-
 app.get('/', (req: Request, res: Response) => {
-  res.send('Assignment 3')
+  res.send('Car Rental Reservation')
 })
 
 

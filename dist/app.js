@@ -16,13 +16,8 @@ app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({ origin: ['https://car-rental-frontend-ashen.vercel.app'] }));
 // application routes
 app.use('/api', routes_1.default);
-// const test = (req: Request, res: Response) => {
-//   const a = 10
-//   res.send(a)
-// }
-// app.get('/', test)
 app.get('/', (req, res) => {
-    res.send('Assignment 3');
+    res.send('Car Rental Reservation');
 });
 app.use(globalErrorhandler_1.default);
 // Not found
