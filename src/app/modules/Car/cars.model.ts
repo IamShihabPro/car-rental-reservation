@@ -8,6 +8,7 @@ const carSchema = new Schema<TCar>({
     description: { type: String, required: true },
     color: { type: String, required: true },
     image: { type: String, required: true },
+    location: { type: String, required: true },
     isElectric: { type: Boolean, required: true, default: false },
     status: { type: String, enum: ['available', 'unavailable'], default: 'available' },
     features: { type: [String], required: true },
@@ -33,6 +34,7 @@ carSchema.pre('save', function (next) {
     this.brand = capitalizeWords(this.brand);
     this.name = capitalizeWords(this.name);
     this.color = capitalizeWords(this.color);
+    this.location = capitalizeWords(this.location);
     next();
 });
 

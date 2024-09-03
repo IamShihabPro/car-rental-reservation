@@ -6,6 +6,7 @@ export interface TCar {
   description: string;
   color: string;
   image: string;
+  location: string;
   isElectric: boolean;
   status: TCarStatus; 
   features: string[];

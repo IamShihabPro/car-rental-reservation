@@ -16,5 +16,7 @@ router.get('/user/:email', UserControllers.getSingleUserByEmail)
 
 router.put('/user/:id', auth(USER_ROLE.admin, USER_ROLE.user), validateRequest(UserValidation.updateUserValidation), UserControllers.updateUser)
 
+router.delete('/:id', auth(USER_ROLE.admin), UserControllers.deleteUser)
+
 
 export const UserRoutes = router;

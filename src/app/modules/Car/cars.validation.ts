@@ -8,7 +8,8 @@ const createCarsValidation = z.object({
     description: z.string(),
     color: z.string(),
     image: z.string(),
-    isElectric: z.boolean(),
+    location: z.string(),
+    isElectric: z.boolean().optional(),
     features: z.array(z.string()),
     status: z.enum(['available', 'unavailable']).optional(),
     pricePerHour: z.number().positive(),
@@ -19,15 +20,16 @@ const createCarsValidation = z.object({
 
 const updateCarsValidation = z.object({
   body: z.object({
-    brand: z.string(),
-    name: z.string(),
-    description: z.string(),
-    color: z.string(),
-    image: z.string(),
+    brand: z.string().optional(),
+    name: z.string().optional(),
+    description: z.string().optional(),
+    color: z.string().optional(),
+    image: z.string().optional(),
+    location: z.string().optional(),
     isElectric: z.boolean().optional(),
-    features: z.array(z.string()),
+    features: z.array(z.string()).optional(),
     status: z.enum(['available', 'unavailable']).optional(),
-    pricePerHour: z.number().positive(),
+    pricePerHour: z.number().positive().optional(),
     gps: z.boolean().optional(),
     childSeat: z.boolean().optional(),
   })

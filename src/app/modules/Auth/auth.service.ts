@@ -19,6 +19,12 @@ const signInUser = async (payload: TSignin) => {
         throw new AppError(httpStatus.UNAUTHORIZED, "Incorrect password");
     }
 
+    const isDeleted = isUserExists?.isDeleted;
+
+    if (isDeleted) {
+      throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
+    }
+
     const jwtPayload = {
         email: isUserExists.email,
         role: isUserExists.role,

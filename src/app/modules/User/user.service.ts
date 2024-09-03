@@ -43,10 +43,16 @@ const updateUserIntoDB = async(id: string, payload: Partial<TUser>)=>{
   return result
 }
 
+const deleteUserIntoDB = async(id: string) =>{
+  const result = await User.findByIdAndUpdate(id, {isDeleted: true}, {new: true})
+  return result
+}
+
 export const UserServices = {
   signUpUserIntoDB,
   getAllUsersFromDB,
   getSingleUser,
   getSingleUserByEmail,
-  updateUserIntoDB
+  updateUserIntoDB,
+  deleteUserIntoDB
 };
