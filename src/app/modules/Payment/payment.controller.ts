@@ -76,6 +76,7 @@ const confirmationPayment = catchAsync(async (req: Request, res: Response) => {
             <p><strong>Transaction ID:</strong> ${transactionId}</p>
             <p><strong>Amount Paid:</strong> ৳${result.totalCost}</p>
             <p><strong>Date:</strong> ${new Date(result.date).toLocaleDateString()}</p>
+            <a href="https://car-rental-frontend-ashen.vercel.app/">car-rent-shop.com</a>
           </div>
           <p>We appreciate your business!</p>
         </div>
