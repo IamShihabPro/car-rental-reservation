@@ -11,7 +11,7 @@ export const initiatePayment = async (paymentData: any) => {
             store_id: process.env.STORE_ID,
             signature_key: process.env.SIGNATURE_KEY,
             tran_id: paymentData.transactionId,
-            success_url: `http://localhost:5000/api/payment/confirmation?transactionId=${paymentData.transactionId}`,
+            success_url: `https://car-rental-reservation-production.up.railway.app/api/payment/confirmation?transactionId=${paymentData.transactionId}`,
             fail_url: "http://www.merchantdomain.com/failedpage.html",
             cancel_url: "http://www.merchantdomain.com/cancelpage.html",
             amount: paymentData.amount,
