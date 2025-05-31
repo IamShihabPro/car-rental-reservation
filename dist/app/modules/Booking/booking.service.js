@@ -27,8 +27,8 @@ exports.BookingServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
-const cars_model_1 = __importDefault(require("../Car/cars.model"));
-const user_model_1 = require("../User/user.model");
+const cars_model_1 = __importDefault(require("../car/cars.model"));
+const user_model_1 = require("../user/user.model");
 const booking_model_1 = __importDefault(require("./booking.model"));
 const mongoose_1 = require("mongoose");
 const createBookingIntoDB = (payload, userData) => __awaiter(void 0, void 0, void 0, function* () {

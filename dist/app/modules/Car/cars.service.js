@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CarsServices = void 0;
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
-const booking_model_1 = __importDefault(require("../Booking/booking.model"));
+const booking_model_1 = __importDefault(require("../booking/booking.model"));
 const cars_model_1 = __importDefault(require("./cars.model"));
 const cars_utils_1 = require("./cars.utils");
 const createCarsIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {

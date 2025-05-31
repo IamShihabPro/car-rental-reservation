@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const user_route_1 = require("../modules/User/user.route");
-const cars_route_1 = require("../modules/Car/cars.route");
-const booking_route_1 = require("../modules/Booking/booking.route");
-const auth_route_1 = require("../modules/Auth/auth.route");
-const payment_route_1 = require("../modules/Payment/payment.route");
+const user_route_1 = require("../modules/user/user.route");
+const cars_route_1 = require("../modules/car/cars.route");
+const booking_route_1 = require("../modules/booking/booking.route");
+const auth_route_1 = require("../modules/auth/auth.route");
+const payment_route_1 = require("../modules/payment/payment.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {

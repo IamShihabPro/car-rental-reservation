@@ -1,5 +1,5 @@
-import Booking from '../Booking/booking.model';
-import { User } from '../User/user.model';
+import Booking from '../booking/booking.model';
+import { User } from '../user/user.model';
 import { initiatePayment } from './patment.utils';
 
 

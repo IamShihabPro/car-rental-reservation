@@ -1,8 +1,8 @@
 import httpStatus from "http-status";
 import QueryBuilder from "../../builder/QueryBuilder"
 import AppError from "../../errors/AppError";
-import Car from "../Car/cars.model";
-import { User } from "../User/user.model";
+import Car from "../car/cars.model";
+import { User } from "../user/user.model";
 import { TBooking } from "./booking.interface"
 import Booking from "./booking.model"
 import { JwtPayload } from "jsonwebtoken";

@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { User } from "../User/user.model";
+import { User } from "../user/user.model";
 import { TSignin } from "./auth.interface";
 import AppError from "../../errors/AppError";
 import bcrypt from 'bcryptjs';

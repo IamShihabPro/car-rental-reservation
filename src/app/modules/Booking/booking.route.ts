@@ -3,7 +3,7 @@ import validateRequest from '../../middlewares/validateRequest'
 import { bookingValidations } from './booking.validation'
 import { BookingControllers } from './booking.controller'
 import { auth } from '../../middlewares/auth'
-import { USER_ROLE } from '../User/user.constant'
+import { USER_ROLE } from '../user/user.constant'
 
 const router = express.Router()
 

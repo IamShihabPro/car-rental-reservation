@@ -1,5 +1,5 @@
 import QueryBuilder from "../../builder/QueryBuilder";
-import Booking from "../Booking/booking.model";
+import Booking from "../booking/booking.model";
 import { TCar } from "./cars.interface";
 import Car from "./cars.model";
 import { calculateTotalCost } from "./cars.utils";
