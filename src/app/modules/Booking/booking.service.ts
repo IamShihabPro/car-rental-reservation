@@ -1,12 +1,14 @@
 import httpStatus from "http-status";
 import QueryBuilder from "../../builder/QueryBuilder"
 import AppError from "../../errors/AppError";
-import Car from "../car/cars.model";
 import { User } from "../user/user.model";
+// import Car from "../car/cars.model";
 import { TBooking } from "./booking.interface"
 import Booking from "./booking.model"
 import { JwtPayload } from "jsonwebtoken";
 import { Types } from "mongoose";
+import Car from "../car/cars.model";
+
 
 
 interface CreateBookingParams extends Partial<TBooking> {
@@ -104,7 +106,8 @@ const getMyBookingsFromDB = async (email: string) => {
       return bookings;
     } catch (error) {
       console.error('Error fetching bookings:', error);
-      throw error;
+      // throw error;
+      throw new AppError(httpStatus.NOT_FOUND, 'something went wrong');
     }
   };
 

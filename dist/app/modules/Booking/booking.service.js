@@ -27,10 +27,10 @@ exports.BookingServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
-const cars_model_1 = __importDefault(require("../car/cars.model"));
 const user_model_1 = require("../user/user.model");
 const booking_model_1 = __importDefault(require("./booking.model"));
 const mongoose_1 = require("mongoose");
+const cars_model_1 = __importDefault(require("../car/cars.model"));
 const createBookingIntoDB = (payload, userData) => __awaiter(void 0, void 0, void 0, function* () {
     const userInfo = yield user_model_1.User.findOne({ email: userData.email });
     // const transactionId = `TXN-${Date.now()}`;
@@ -100,7 +100,8 @@ const getMyBookingsFromDB = (email) => __awaiter(void 0, void 0, void 0, functio
     }
     catch (error) {
         console.error('Error fetching bookings:', error);
-        throw error;
+        // throw error;
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'something went wrong');
     }
 });
 const updateBookingIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
